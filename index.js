@@ -60,6 +60,11 @@ app.get('/dockerhub', (req, res) => {
   res.send('Docker Hub test interface');
 });
 
+app.get('/github-action', (req, res) => {
+  console.log('Got request for /github-action');
+  res.send('GitHub Action test interface');
+});
+
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
