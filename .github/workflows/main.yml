@@ -15,6 +15,7 @@ env:
   REGISTRY: sgse2
   IMAGE_NAME: express-test
   DOCKERFILE: ./Dockerfile
+  WORKING_DIR: ./
 
 jobs:
   build:
@@ -29,8 +30,11 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm ci
+        working-directory: ${{ env.WORKING_DIR }}
       - run: npm run build --if-present
+        working-directory: ${{ env.WORKING_DIR }}
       - run: npm test
+        working-directory: ${{ env.WORKING_DIR }}
 
   push_to_registry:
     name: Push Docker image to Docker Hub
@@ -48,7 +52,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
-          context: .
+          context: ${{ env.WORKING_DIR }}
           file: ${{ env.DOCKERFILE }}
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
