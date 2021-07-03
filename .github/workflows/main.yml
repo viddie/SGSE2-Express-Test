@@ -19,6 +19,13 @@ env:
   DOCKERFILE: ./Dockerfile
 
 jobs:
+  node_test:
+    name: Test the NodeJS app
+    runs-on: ubuntu-latest
+    steps:
+      - name: Runs the test target
+        run: npm test
+
   push_to_registry:
     name: Push Docker image to Docker Hub
     runs-on: ubuntu-latest
